@@ -24,12 +24,12 @@ defmodule FizzBuzz do
   end
 
   def fizz_buzz_2(cnt) do
-    1..cnt |> Enum.map_join(fn n ->
+    1..cnt |> Enum.map_join fn(n) ->
       case fizzbuzz.({rem(n, 3) === 0, rem(n, 5) === 0}) do
         nil -> n
         s -> s
       end
-    end)
+    end
   end
 end
 
