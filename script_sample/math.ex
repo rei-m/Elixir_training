@@ -1,5 +1,7 @@
 defmodule Math do
 
+  alias Math.List, as: List
+
   def sum(a, b) do
     do_sum(a, b)
   end
