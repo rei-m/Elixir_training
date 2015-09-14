@@ -1,9 +1,23 @@
 defmodule KV.RegistryTest do
   use ExUnit.Case, async: true
 
+  defmodule Forwarder do
+     use GenEvent
+
+     def handle_event(event, parent) do
+       IO.inspect event
+       send parent, event
+       {:ok, parent}
+     end
+   end
+
   setup do
-    # レジストリを起動
-    {:ok, registry} = KV.Registry.start_link
+    # Event Managerを起動
+    {:ok, manager} = GenEvent.start_link
+    # EventManagerをレジストリに渡して起動
+    {:ok, registry} = KV.Registry.start_link(manager)
+
+    GenEvent.add_mon_handler(manager, Forwarder, self())
     {:ok, registry: registry}
   end
 
@@ -28,5 +42,16 @@ defmodule KV.RegistryTest do
     {:ok, bucket} = KV.Registry.lookup(registry, "shopping")
     Agent.stop(bucket)
     assert KV.Registry.lookup(registry, "shopping") == :error
+  end
+
+  test "sends events on create and crash", %{registry: registry} do
+    # bucketを作成した時にレジストリからイベントを受け取っていること
+    KV.Registry.create(registry, "shopping")
+    {:ok, bucket} = KV.Registry.lookup(registry, "shopping")
+    assert_receive {:create, "shopping", ^bucket}
+
+    # bucketを破棄した時にレジストリからイベントを受け取っていること
+    Agent.stop(bucket)
+    assert_receive {:exit, "shopping", ^bucket}
   end
 end
