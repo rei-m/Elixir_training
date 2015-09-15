@@ -6,15 +6,15 @@ defmodule KV.Registry do
   @doc """
   Starts the registry.
   """
-  def start_link(event_manager, opts \\ []) do
+  def start_link(event_manager, buckets, opts \\ []) do
     # 3つの引数をpassingする新しいGenServerをスタートする
     # arg1 は server callbackが実装されているモジュールで `__MODULE__` は現在のモジュールを指す
     # arg2 は 初期設定でこの場合はatom
     # arg3 は オプションのリスト
     # GenServer.start_link(__MODULE__, event_manager, :ok)
 
-    # start_linkでeventmanagerを受け取れるようにする
-    GenServer.start_link(__MODULE__, event_manager, opts)
+    # start_linkでeventmanagerとbucketのsupervisorを受け取れるようにする
+    GenServer.start_link(__MODULE__, {event_manager, buckets}, opts)
   end
 
   @doc """
@@ -45,12 +45,13 @@ defmodule KV.Registry do
 
   ## Server Callbacks
 
-  def init(events) do
+  def init({events, buckets}) do
     # 単に新しいHashDictを返していたところをnamesとrefsのtupleを返すようにする
     names = HashDict.new
     refs  = HashDict.new
 
-    {:ok,  %{names: names, refs: refs, events: events}}
+
+    {:ok, %{names: names, refs: refs, events: events, buckets: buckets}}
   end
 
   # パターンマッチを使って対応するstateを取り出す
@@ -66,7 +67,8 @@ defmodule KV.Registry do
     if HashDict.get(state.names, name) do
       {:noreply, state}
     else
-      {:ok, pid} = KV.Bucket.start_link()
+      # bucketのsupervisor経由でbucketのプロセスを作成する
+      {:ok, pid} = KV.Bucket.Supervisor.start_bucket(state.buckets)
       ref = Process.monitor(pid)
       refs = HashDict.put(state.refs, ref, name)
       names = HashDict.put(state.names, name, pid)

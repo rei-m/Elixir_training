@@ -12,9 +12,10 @@ defmodule KV.Mixfile do
 
   # Configuration for the OTP application
   #
-  # Type `mix help compile.app` for more information
+  # Type `mix help compile.app` for more information  
   def application do
-    [applications: [:logger]]
+    [applications: [],
+    mod: {KV, []}]
   end
 
   # Dependencies can be Hex packages:
