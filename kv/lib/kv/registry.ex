@@ -6,15 +6,15 @@ defmodule KV.Registry do
   @doc """
   Starts the registry.
   """
-  def start_link(event_manager, buckets, opts \\ []) do
+  def start_link(ets, event_manager, buckets, opts \\ []) do
     # 3つの引数をpassingする新しいGenServerをスタートする
     # arg1 は server callbackが実装されているモジュールで `__MODULE__` は現在のモジュールを指す
     # arg2 は 初期設定でこの場合はatom
     # arg3 は オプションのリスト
     # GenServer.start_link(__MODULE__, event_manager, :ok)
 
-    # start_linkでeventmanagerとbucketのsupervisorを受け取れるようにする
-    GenServer.start_link(__MODULE__, {event_manager, buckets}, opts)
+    # start_linkでETSのプロセスとeventmanagerとbucketのsupervisorを受け取れるようにする
+    GenServer.start_link(__MODULE__, {ets, event_manager, buckets}, opts)
   end
 
   @doc """
@@ -22,10 +22,17 @@ defmodule KV.Registry do
 
   Returns `{:ok, pid}` if the bucket exists, `:error` otherwise.
   """
-  def lookup(server, name) do
+  def lookup(table, name) do
     # call/2 は serverからresponseが返るrequest
     # serverに渡す命令は tupleにして先頭をserverへの命令を意味するatom をつけることが多い
-    GenServer.call(server, {:lookup, name})
+    # GenServer.call(server, {:lookup, name})
+
+    # 2. ETSを使わない場合はGenServer.callで:lookup イベントを送っていたが
+    # 今のETSの場合はどのプロセスからでも参照できるので取り出したものをそのまま返せばよい
+    case :ets.lookup(table, name) do
+      [{^name, bucket}] -> {:ok, bucket}
+      [] -> :error
+    end
   end
 
   @doc """
@@ -33,7 +40,7 @@ defmodule KV.Registry do
   """
   def create(server, name) do
     # cast/2 はserverからresponseが帰らないrequest
-    GenServer.cast(server, {:create, name})
+    GenServer.call(server, {:create, name})
   end
 
   @doc """
@@ -45,37 +52,51 @@ defmodule KV.Registry do
 
   ## Server Callbacks
 
-  def init({events, buckets}) do
+  def init({ets, events, buckets}) do
     # 単に新しいHashDictを返していたところをnamesとrefsのtupleを返すようにする
-    names = HashDict.new
-    refs  = HashDict.new
+    # names = HashDict.new
+    # refs  = HashDict.new
 
-
-    {:ok, %{names: names, refs: refs, events: events, buckets: buckets}}
+    # ets  = :ets.new(table, [:named_table, read_concurrency: true])
+    refs = :ets.foldl(fn {name, pid}, acc ->
+      HashDict.put(acc, Process.monitor(pid), name)
+    end, HashDict.new, ets)
+    {:ok, %{names: ets, refs: refs, events: events, buckets: buckets}}
   end
 
   # パターンマッチを使って対応するstateを取り出す
-  def handle_call({:lookup, name}, _from, state) do
-    {:reply, HashDict.fetch(state.names, name), state}
-  end
+  # def handle_call({:lookup, name}, _from, state) do
+  #   {:reply, HashDict.fetch(state.names, name), state}
+  # end
 
-  def handle_call(:stop, _from, state) do
-   {:stop, :normal, :ok, state}
-  end
+  # def handle_call(:stop, _from, state) do
+  #  {:stop, :normal, :ok, state}
+  # end
 
-  def handle_cast({:create, name}, state) do
-    if HashDict.get(state.names, name) do
-      {:noreply, state}
-    else
-      # bucketのsupervisor経由でbucketのプロセスを作成する
-      {:ok, pid} = KV.Bucket.Supervisor.start_bucket(state.buckets)
-      ref = Process.monitor(pid)
-      refs = HashDict.put(state.refs, ref, name)
-      names = HashDict.put(state.names, name, pid)
-
-      # Event ManagerにPushイベントを送り、create を通知する
-      GenEvent.sync_notify(state.events, {:create, name, pid})
-      {:noreply, %{state | names: names, refs: refs}}
+  def handle_call({:create, name}, _from, state) do
+    # if HashDict.get(state.names, name) do
+    #   {:noreply, state}
+    # else
+    #   # bucketのsupervisor経由でbucketのプロセスを作成する
+    #   {:ok, pid} = KV.Bucket.Supervisor.start_bucket(state.buckets)
+    #   ref = Process.monitor(pid)
+    #   refs = HashDict.put(state.refs, ref, name)
+    #   names = HashDict.put(state.names, name, pid)
+    #
+    #   # Event ManagerにPushイベントを送り、create を通知する
+    #   GenEvent.sync_notify(state.events, {:create, name, pid})
+    #   {:noreply, %{state | names: names, refs: refs}}
+    # end
+    case lookup(state.names, name) do
+      {:ok, pid} ->
+        {:reply, pid, state}
+      :error ->
+        {:ok, pid} = KV.Bucket.Supervisor.start_bucket(state.buckets)
+        ref = Process.monitor(pid)
+        refs = HashDict.put(state.refs, ref, name)
+        :ets.insert(state.names, {name, pid})
+        GenEvent.sync_notify(state.events, {:create, name, pid})
+        {:reply, pid, %{state | refs: refs}} # Reply with pid
     end
   end
 
@@ -84,11 +105,13 @@ defmodule KV.Registry do
     # refsから対応するBucketの名前を取り出しつつ削除
     {name, refs} = HashDict.pop(state.refs, ref)
     # namesから削除
-    names = HashDict.delete(state.names, name)
+    # names = HashDict.delete(state.names, name)
+    :ets.delete(state.names, name)
 
     # Event ManagerにPushイベントを送り、exit を通知する
     GenEvent.sync_notify(state.events, {:exit, name, pid})
-    {:noreply, %{state | names: names, refs: refs}}
+    # {:noreply, %{state | names: names, refs: refs}}
+    {:noreply, %{state | refs: refs}}
   end
 
  # すべてのイベントをキャッチするコールバック
