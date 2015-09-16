@@ -87,24 +87,31 @@ defmodule KV.Registry do
     #   GenEvent.sync_notify(state.events, {:create, name, pid})
     #   {:noreply, %{state | names: names, refs: refs}}
     # end
+    # ETSから指定されたBucketのプロセスを探す
     case lookup(state.names, name) do
       {:ok, pid} ->
         {:reply, pid, state}
       :error ->
+        # bucketのsupervisor経由でbucketのプロセスを作成する
         {:ok, pid} = KV.Bucket.Supervisor.start_bucket(state.buckets)
+        # bucketの子プロセスを監視対象に入れる
         ref = Process.monitor(pid)
+        # bucketの監視プロセスとbucket名をペアにして保存
         refs = HashDict.put(state.refs, ref, name)
+        # ETSにbucketの名前とプロセスを保存
         :ets.insert(state.names, {name, pid})
+        # Event Managerに create を通知。コールバックが実装されていればEventを受け取ることができる。
         GenEvent.sync_notify(state.events, {:create, name, pid})
-        {:reply, pid, %{state | refs: refs}} # Reply with pid
+        # bucketのpidと更新したstateを返す
+        {:reply, pid, %{state | refs: refs}}
     end
   end
 
   # bucketのプロセスがダウンした時のコールバック
   def handle_info({:DOWN, ref, :process, pid, _reason}, state) do
-    # refsから対応するBucketの名前を取り出しつつ削除
+    # refsから対応するBucketの名前を取り出しつつ削除して監視を解除
     {name, refs} = HashDict.pop(state.refs, ref)
-    # namesから削除
+    # namesから削除して保存しているBucketの一覧から削除
     # names = HashDict.delete(state.names, name)
     :ets.delete(state.names, name)
 
