@@ -1,0 +1,119 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Bucket	apps/kv/lib/kv/bucket.ex	/^defmodule KV.Bucket do$/;"	m
+BucketTest	apps/kv/test/kv/bucket_test.exs	/^defmodule KV.BucketTest do$/;"	m
+Command	apps/kv_server/lib/kv_server/command.ex	/^defmodule KVServer.Command do$/;"	m
+CommandTest	apps/kv_server/test/kv_server/command_test.exs	/^defmodule KVServer.CommandTest do$/;"	m
+ExceptionWrapper	deps/pipe/examples/exceptions.exs	/^defmodule ExceptionWrapper do$/;"	m
+Forwarder	apps/kv/test/kv/registry_test.exs	/^  defmodule Forwarder do$/;"	m
+KV	apps/kv/lib/kv.ex	/^defmodule KV do$/;"	m
+KVServer	apps/kv_server/lib/kv_server.ex	/^defmodule KVServer do$/;"	m
+KVServerTest	apps/kv_server/test/kv_server_test.exs	/^defmodule KVServerTest do$/;"	m
+KVTest	apps/kv/test/kv_test.exs	/^defmodule KVTest do$/;"	m
+Matching	deps/pipe/test/pipes_test.exs	/^  defmodule Matching do$/;"	m
+Matrix	deps/pipe/examples/matrix.exs	/^defmodule Matrix do$/;"	m
+Mixfile	apps/kv/mix.exs	/^defmodule KV.Mixfile do$/;"	m
+Mixfile	apps/kv_server/mix.exs	/^defmodule KVServer.Mixfile do$/;"	m
+Mixfile	deps/pipe/mix.exs	/^defmodule Pipes.Mixfile do$/;"	m
+Mixfile	mix.exs	/^defmodule KvUmbrella.Mixfile do$/;"	m
+Pipe	deps/pipe/lib/pipe.ex	/^defmodule Pipe do$/;"	m
+PipesTest	deps/pipe/test/pipes_test.exs	/^defmodule PipesTest do$/;"	m
+Registry	apps/kv/lib/kv/registry.ex	/^defmodule KV.Registry do$/;"	m
+RegistryTest	apps/kv/test/kv/registry_test.exs	/^defmodule KV.RegistryTest do$/;"	m
+Roulette	deps/pipe/examples/exceptions.exs	/^defmodule Roulette do$/;"	m
+RussianRoulette	deps/pipe/examples/return_codes.exs	/^defmodule RussianRoulette do$/;"	m
+Should	deps/pipe/test/test_helper.exs	/^defmodule Should do$/;"	m
+Simple	deps/pipe/test/pipes_test.exs	/^  defmodule Simple do$/;"	m
+Supervisor	apps/kv/lib/kv/bucekt/supervisor.ex	/^defmodule KV.Bucket.Supervisor do$/;"	m
+Supervisor	apps/kv/lib/kv/supervisor.ex	/^defmodule KV.Supervisor do$/;"	m
+__using__	deps/pipe/lib/pipe.ex	/^  defmacro __using__(_) do$/;"	a
+accept	apps/kv_server/lib/kv_server.ex	/^  def accept(port) do$/;"	f
+application	apps/kv/mix.exs	/^  def application do$/;"	f
+application	apps/kv_server/mix.exs	/^  def application do$/;"	f
+application	deps/pipe/mix.exs	/^  def application do$/;"	f
+bang	deps/pipe/examples/exceptions.exs	/^  def bang(_acc) do$/;"	f
+bang	deps/pipe/examples/return_codes.exs	/^  def bang(acc) do$/;"	f
+click	deps/pipe/examples/exceptions.exs	/^  def click(acc) do$/;"	f
+click	deps/pipe/examples/return_codes.exs	/^  def click(acc) do$/;"	f
+create	apps/kv/lib/kv/registry.ex	/^  def create(server, name) do$/;"	f
+delete	apps/kv/lib/kv/bucket.ex	/^  def delete(bucket, key) do$/;"	f
+deps	apps/kv/mix.exs	/^  defp deps do$/;"	f
+deps	apps/kv_server/mix.exs	/^  defp deps do$/;"	f
+deps	deps/pipe/mix.exs	/^  defp deps do$/;"	f
+deps	mix.exs	/^  defp deps do$/;"	f
+description	deps/pipe/mix.exs	/^  defp description do$/;"	f
+do_pipe_matching	deps/pipe/lib/pipe.ex	/^  defp do_pipe_matching(expr, test, pipes) do$/;"	f
+double	deps/pipe/lib/pipe.ex	/^  def double(x), do: x * 2$/;"	f
+double	deps/pipe/test/pipes_test.exs	/^    def double(x), do: x * 2$/;"	f
+double	deps/pipe/test/pipes_test.exs	/^    def double({code, x}), do: {code, x * 2}$/;"	f
+format_msg	apps/kv_server/lib/kv_server.ex	/^  defp format_msg({:error, :not_found}), do: "NOT FOUND\\r\\n"$/;"	f
+format_msg	apps/kv_server/lib/kv_server.ex	/^  defp format_msg({:error, :unknown_command}), do: "UNKNOWN COMMAND\\r\\n"$/;"	f
+format_msg	apps/kv_server/lib/kv_server.ex	/^  defp format_msg({:error, _}), do: "ERROR\\r\\n"$/;"	f
+format_msg	apps/kv_server/lib/kv_server.ex	/^  defp format_msg({:ok, text}), do: text$/;"	f
+get	apps/kv/lib/kv/bucket.ex	/^  def get(bucket, key) do$/;"	f
+handle_call	apps/kv/lib/kv/registry.ex	/^  def handle_call({:create, name}, _from, state) do$/;"	f
+handle_event	apps/kv/test/kv/registry_test.exs	/^    def handle_event(event, parent) do$/;"	f
+handle_info	apps/kv/lib/kv/registry.ex	/^  def handle_info({:DOWN, ref, :process, pid, _reason}, state) do$/;"	f
+handle_info	apps/kv/lib/kv/registry.ex	/^ def handle_info(_msg, state) do$/;"	f
+if_pipes	deps/pipe/test/pipes_test.exs	/^    def if_pipes, do: pipe_while(&if_test\/1, {:ok, 1} |> inc |> double )$/;"	f
+if_test	deps/pipe/test/pipes_test.exs	/^    def if_test(_), do: false$/;"	f
+if_test	deps/pipe/test/pipes_test.exs	/^    def if_test({:ok, _}), do: true$/;"	f
+inc	deps/pipe/lib/pipe.ex	/^  def inc(x), do: x + 1$/;"	f
+inc	deps/pipe/test/pipes_test.exs	/^    def inc(x), do: x + 1$/;"	f
+inc	deps/pipe/test/pipes_test.exs	/^    def inc({code, x}), do: {code, x + 1}$/;"	f
+init	apps/kv/lib/kv/bucekt/supervisor.ex	/^  def init(:ok) do$/;"	f
+init	apps/kv/lib/kv/registry.ex	/^  def init({ets, events, buckets}) do$/;"	f
+init	apps/kv/lib/kv/supervisor.ex	/^  def init(:ok) do$/;"	f
+lookup	apps/kv/lib/kv/registry.ex	/^  def lookup(table, name) do$/;"	f
+lookup	apps/kv_server/lib/kv_server/command.ex	/^  defp lookup(bucket, callback) do$/;"	f
+loop_acceptor	apps/kv_server/lib/kv_server.ex	/^  defp loop_acceptor(socket) do$/;"	f
+merge_list	deps/pipe/examples/matrix.exs	/^  def merge_list(x, f), do: Enum.map(x, f)$/;"	f
+merge_lists	deps/pipe/examples/matrix.exs	/^  def merge_lists(x, f), do: Enum.map(x, &Matrix.merge_list(&1, f))$/;"	f
+ok_double	deps/pipe/test/pipes_test.exs	/^    def ok_double(x), do: {:ok, x * 2}$/;"	f
+ok_inc	deps/pipe/test/pipes_test.exs	/^    def ok_inc(x), do: {:ok, x + 1}$/;"	f
+package	deps/pipe/mix.exs	/^  defp package do$/;"	f
+parse	apps/kv_server/lib/kv_server/command.ex	/^  def parse(line) do$/;"	f
+pipe_matching	deps/pipe/lib/pipe.ex	/^  defmacro pipe_matching(expr, test, pipes) do$/;"	a
+pipe_matching	deps/pipe/lib/pipe.ex	/^  defmacro pipe_matching(test, pipes) do$/;"	a
+pipe_while	deps/pipe/lib/pipe.ex	/^  defmacro pipe_while(test, pipes) do$/;"	a
+pipe_with	deps/pipe/lib/pipe.ex	/^  defmacro pipe_with(fun, pipes) do$/;"	a
+pipes	deps/pipe/test/pipes_test.exs	/^    def pipes, do: 1 |> inc |> double$/;"	f
+pipes	deps/pipe/test/pipes_test.exs	/^    def pipes, do: pipe_matching({:ok, _}, {:ok, 1} |> inc |> double )$/;"	f
+pipes_expr	deps/pipe/test/pipes_test.exs	/^    def pipes_expr, do: pipe_matching(x, {:ok, x}, {:ok, 1} |> ok_inc |> ok_double )$/;"	f
+project	apps/kv/mix.exs	/^  def project do$/;"	f
+project	apps/kv_server/mix.exs	/^  def project do$/;"	f
+project	deps/pipe/mix.exs	/^  def project do$/;"	f
+project	mix.exs	/^  def project do$/;"	f
+put	apps/kv/lib/kv/bucket.ex	/^  def put(bucket, key, value) do$/;"	f
+read_line	apps/kv_server/lib/kv_server.ex	/^  defp read_line(socket) do$/;"	f
+reduce_if	deps/pipe/lib/pipe.ex	/^  defp reduce_if({x, pos}, acc, test) do$/;"	f
+reduce_matching	deps/pipe/lib/pipe.ex	/^  defp reduce_matching({x, pos}, acc, expr, test) do$/;"	f
+reduce_with	deps/pipe/lib/pipe.ex	/^  defp reduce_with({segment, pos}, acc, outer) do$/;"	f
+run	apps/kv_server/lib/kv_server/command.ex	/^  def run(command)$/;"	f
+run	apps/kv_server/lib/kv_server/command.ex	/^  def run({:create, bucket}) do$/;"	f
+run	apps/kv_server/lib/kv_server/command.ex	/^  def run({:delete, bucket, key}) do$/;"	f
+run	apps/kv_server/lib/kv_server/command.ex	/^  def run({:get, bucket, key}) do$/;"	f
+run	apps/kv_server/lib/kv_server/command.ex	/^  def run({:put, bucket, key, value}) do$/;"	f
+send_and_recv	apps/kv_server/test/kv_server_test.exs	/^  defp send_and_recv(socket, command) do$/;"	f
+serve	apps/kv_server/lib/kv_server.ex	/^  defp serve(socket) do$/;"	f
+should	deps/pipe/test/test_helper.exs	/^  defmacro should(name, options) do$/;"	a
+start	apps/kv/lib/kv.ex	/^  def start(_type, _args) do$/;"	f
+start	apps/kv_server/lib/kv_server.ex	/^  def start(_type, _args) do$/;"	f
+start	deps/pipe/examples/exceptions.exs	/^  def start, do: :ok$/;"	f
+start_bucket	apps/kv/lib/kv/bucekt/supervisor.ex	/^  def start_bucket(supervisor) do$/;"	f
+start_link	apps/kv/lib/kv/bucekt/supervisor.ex	/^  def start_link(opts \\\\ []) do$/;"	f
+start_link	apps/kv/lib/kv/bucket.ex	/^  def start_link do$/;"	f
+start_link	apps/kv/lib/kv/registry.ex	/^  def start_link(ets, event_manager, buckets, opts \\\\ []) do$/;"	f
+start_link	apps/kv/lib/kv/supervisor.ex	/^  def start_link do$/;"	f
+start_registry	apps/kv/test/kv/registry_test.exs	/^  defp start_registry(ets) do$/;"	f
+stop	apps/kv/lib/kv/registry.ex	/^  def stop(server) do$/;"	f
+triple	deps/pipe/test/pipes_test.exs	/^    def triple(x, y), do: x * y$/;"	f
+with_pipes_identity	deps/pipe/test/pipes_test.exs	/^    def with_pipes_identity do$/;"	f
+with_pipes_map	deps/pipe/test/pipes_test.exs	/^    def with_pipes_map do$/;"	f
+wrap	deps/pipe/examples/exceptions.exs	/^  def wrap(acc, f) do$/;"	f
+wrap	deps/pipe/examples/exceptions.exs	/^  def wrap({:error, e, acc}, _), do: {:error, e, acc}$/;"	f
+write_line	apps/kv_server/lib/kv_server.ex	/^  defp write_line(socket, msg) do$/;"	f

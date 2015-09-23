@@ -22,3 +22,8 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+# Replace computer-name with your local machine nodes.
+config :kv, :routing_table,
+       [{?a..?m, :"foo@MacBook-Pro-2"},
+        {?n..?z, :"bar@MacBook-Pro-2"}]
