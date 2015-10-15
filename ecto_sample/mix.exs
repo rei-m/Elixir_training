@@ -14,7 +14,10 @@ defmodule EctoSample.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:mariaex, :ecto]]
+    [
+      applications: [:mariaex, :ecto],
+      mod: {EctoSample.App, []}
+    ]
   end
 
   # Dependencies can be Hex packages:
